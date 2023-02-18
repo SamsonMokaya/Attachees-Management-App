@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "528078277301",
+    "project_id": "attacheesapp",
+    "storage_bucket": "attacheesapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:528078277301:android:46db585338f3938ef58cfc",
+        "android_client_info": {
+          "package_name": "com.example.atacheed_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "528078277301-ngqvcqiocibs1ljgstav5ibqt5027i6l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDlfVGCKvkC8VJ2byYa4brDufS1P6hB0Xw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "528078277301-ngqvcqiocibs1ljgstav5ibqt5027i6l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
