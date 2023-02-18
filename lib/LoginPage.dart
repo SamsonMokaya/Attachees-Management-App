@@ -1,6 +1,9 @@
 import 'package:atacheed_app/square_tile.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
+import 'forgotPasswordPage.dart';
 import 'myButton.dart';
 
 
@@ -22,6 +25,51 @@ class _LoginPageState extends State<LoginPage> {
   //text editing controllers
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+
+  Future signIn() async{
+
+    if (emailController.text.trim().isEmpty || passwordController.text.trim().isEmpty) {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return const AlertDialog(
+              title: Text("All fields are required"),
+            );
+          }
+      );
+      return;
+    }
+
+    //show dialog circle
+    showDialog(
+        context: context,
+        builder: (context) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+    );
+
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: emailController.text,
+        password: passwordController.text,
+      );
+
+      Navigator.pop(context);
+
+    }on FirebaseAuthException catch (error) {
+      Navigator.pop(context);
+      showErrorMessage(error.code);
+    }
+  }
+
+  @override
+  void dispose(){
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
 
 
   void showErrorMessage(String message) {
@@ -118,35 +166,43 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
 
-              //sign in button
-              myButton(
-                  onTap: () {},
-                  text: "Sign In"
-              ),
-
               SizedBox(height: 10,),
 
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text("Forgot password? ",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),),
-                  GestureDetector(
-                    onTap: (){},
-                    child: Text("Reset here",
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    GestureDetector(
+                      onTap:(){
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context){
+                            return ForgotPasswordPage();
+                          })
+                        );
+                      },
+                      child: Text("Forgot password?",
                       style: TextStyle(
                         color: Colors.blue,
                         fontWeight: FontWeight.bold,
                       ),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 10,),
+
+              //sign in button
+              myButton(
+                  onTap: signIn,
+                  text: "Sign In"
               ),
 
               // or sign in with google or github
-              const SizedBox(height: 15,),
+              const SizedBox(height: 5,),
 
               Text("Or sign in with",
                 style: TextStyle(
@@ -155,7 +211,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
 
-              const SizedBox(height: 30,),
+              const SizedBox(height: 20,),
 
 
               //google or twitter
